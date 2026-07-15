@@ -13,8 +13,8 @@ This is a vulnerable web application built with Django for educational purposes.
 - Username: admin Password: admin
 
 ## Vulnerabilities
-- FAULT 1: SQL Injection
-- FAULT 2: Authentication failure
-- FAULT 3: Broken access control
-- FAULT 4: Cryptographic failure
-- FAULT 5: CSRF
+- FLAW 1: SQL Injection
+- FLAW 2: Authentication failure
+- FLAW 3: Broken access control
+- FLAW 4: Cryptographic failure
+- FLAW 5: CSRF

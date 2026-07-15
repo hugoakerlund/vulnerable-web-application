@@ -19,7 +19,7 @@ def addAccountView(request):
         #     return render(request, 'pages/add_account.html', {'error': 'ERROR: Invalid IBAN format.'})
 
         if iban:
-            # FAULT 1: SQL injection - The following code is vulnerable to SQL injection because it directly concatenates user input into the SQL query without proper sanitization or parameterization.
+            # FLAW 1: SQL injection - The following code is vulnerable to SQL injection because it directly concatenates user input into the SQL query without proper sanitization or parameterization.
             with connection.cursor() as cursor:
                 cursor.execute(
                     "INSERT INTO pages_account (owner_id, iban, balance) VALUES (" + str(request.user.id) + ", '" + iban + "', 0)"
@@ -51,7 +51,7 @@ def loginView(request):
         username = request.POST.get('username')
         password = request.POST.get('password')
 
-        # FAULT 4: Cryptographic failure - Function uses a weak and insecure hashing algorithm for user authentication.
+        # FLAW 4: Cryptographic failure - Function uses a weak and insecure hashing algorithm for user authentication.
         user = authenticate_user(username=username, password=password)
 
         # FIX 4: Use Django's built-in password hashing for authentication instead of the custom hash_password function. This ensures that passwords are securely hashed and verified.
@@ -80,7 +80,7 @@ def registerView(request):
         username = request.POST.get('username')
         password = request.POST.get('password')
 
-        # FAULT 4: Cryptographic failure - The following code uses a weak and insecure hashing algorithm (Caesar cipher) to hash passwords, which can be easily reversed and does not provide adequate security for storing sensitive information like passwords.
+        # FLAW 4: Cryptographic failure - The following code uses a weak and insecure hashing algorithm (Caesar cipher) to hash passwords, which can be easily reversed and does not provide adequate security for storing sensitive information like passwords.
         password = hash_password(password)
         if username and password:
             with connection.cursor() as cursor:
@@ -105,7 +105,7 @@ def deleteAccountView(request, account_id):
 
 
     try:
-        # FAULT 3: Broken Access Control - The following code does not properly check if the account being deleted belongs to the authenticated user, allowing any authenticated user to delete any account by manipulating the URL.
+        # FLAW 3: Broken Access Control - The following code does not properly check if the account being deleted belongs to the authenticated user, allowing any authenticated user to delete any account by manipulating the URL.
         account = Account.objects.get(id=account_id)
 
         # FIX 3: Check if the account belongs to the user before deleting

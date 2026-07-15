@@ -31,7 +31,7 @@ ALLOWED_HOSTS = []
 
 # Application definition
 
-# FAULT 2: Authentication failure - The application does not implement any account lockout or rate limiting mechanism, allowing attackers to perform brute-force attacks on user accounts without any restrictions.
+# FLAW 2: Authentication failure - The application does not implement any account lockout or rate limiting mechanism, allowing attackers to perform brute-force attacks on user accounts without any restrictions.
 
 INSTALLED_APPS = [
     'django.contrib.admin',

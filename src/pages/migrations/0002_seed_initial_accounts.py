@@ -19,7 +19,7 @@ def seed_initial_users_and_accounts(apps, schema_editor):
         user, created = User.objects.get_or_create(
             username=username,
 
-            # FAULT 4: Cryptographic failure - Password is hashed insecurely
+            # FLAW 4: Cryptographic failure - Password is hashed insecurely
             defaults={'password': hash_password(password)},
 
             # FIX 4: Use Django's built-in password hashing for better security
@@ -27,7 +27,7 @@ def seed_initial_users_and_accounts(apps, schema_editor):
         )
         if not created:
 
-            # FAULT 4: Cryptographic failure - Password is hashed insecurely
+            # FLAW 4: Cryptographic failure - Password is hashed insecurely
             user.password = hash_password(password)
 
             # FIX 4: Use Django's built-in password hashing for better security
