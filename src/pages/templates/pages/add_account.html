@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Vulnerable bank</title>
+    <link rel="stylesheet" type="text/css" href="/static/css/style.css" />
+</head>
+
+<body>
+    <center>
+        <h1>Create Account</h1>
+
+        {% if error %}
+        <p>{{ error }}</p>
+        {% endif %}
+
+        <form method="post" action="{% url 'add_account' %}">
+            {% csrf_token %}
+            <table>
+                <tr>
+                    <td><label for="iban">IBAN</label></td>
+                    <td>
+                        <input id="iban" type="text" name="iban" />
+                        <!-- FIX 1: The IBAN input field should have validation attributes to ensure that the user enters a valid IBAN. This can be done by adding the following attributes to the input field: -->
+                        <!-- maxlength="18" pattern="FI[0-9]{16}" title="Please enter a valid IBAN" required -->
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <input type="submit" value="Create Account" />
+                    </td>
+                </tr>
+            </table>
+        </form>
+
+        <p><a href="{% url 'home' %}">Back to home</a></p>
+    </center>
+</body>
+
+</html>

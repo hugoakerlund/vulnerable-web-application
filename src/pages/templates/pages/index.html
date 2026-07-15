@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Vulnerable bank</title>
+    <link rel="stylesheet" type="text/css" href="/static/css/style.css" />
+</head>
+
+<body>
+    <center>
+        <h1>Vulnerable bank</h1>
+
+        <p>Welcome to the vulnerable bank!</p>
+
+        {% if error %}
+        <p>{{ error }}</p>
+        {% endif %}
+
+        <h2>Account Information</h2>
+        {% if user.is_authenticated %}
+        <p>Username: {{ user.username }}</p>
+        <p>Accounts: {{ accounts|length }}</p>
+        {% else %}
+        <p>You are not logged in.</p>
+        <p><a href="{% url 'login' %}">Login</a> | <a href="{% url 'register' %}">Register</a></p>
+        {% endif %}
+
+        <h2>Your accounts</h2>
+        {% if accounts %}
+        <ul>
+            {% for account in accounts %}
+            <li>{{ account.iban }} - Balance: {{ account.balance }} <a
+                    href="{% url 'delete_account' account.id %}">Delete account</a></li>
+            {% endfor %}
+        </ul>
+        {% else %}
+        <p>No accounts yet.</p>
+        {% endif %}
+        <p><a href="{% url 'add_account' %}">Create an account</a></p>
+
+        {% if accounts %}
+        <h2>Transfer money</h2>
+        <form method="post" action="{% url 'transfer' %}">
+
+            <!-- FAULT 5: Cross-Site Request Forgery (CSRF) vulnerability -->
+            <!-- FIX 5: Uncomment the following line to include CSRF token -->
+            <!-- {% csrf_token %} -->
+
+            <label for="sender">From</label>
+            <select id="sender" name="sender">
+                {% for account in accounts %}
+                <option value="{{ account.iban }}">{{ account.iban }}</option>
+                {% endfor %}
+            </select>
+            <label for="receiver">To (IBAN)</label>
+            <input id="receiver" type="text" name="receiver" maxlength="18" pattern="FI[0-9]{16}"
+                title="Please enter a valid IBAN" required />
+            <label for="amount">Amount</label>
+            <input id="amount" type="number" min="1" name="amount" required />
+            <button type="submit">Transfer</button>
+        </form>
+        {% endif %}
+
+        <p><a href="{% url 'logout' %}">Logout</a></p>
+    </center>
+</body>
+
+</html>

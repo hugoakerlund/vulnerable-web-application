@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Vulnerable bank</title>
+    <link rel="stylesheet" type="text/css" href="/static/css/style.css" />
+</head>
+
+<body>
+    <center>
+        <h1>Create Account</h1>
+
+        {% if error %}
+        <p>{{ error }}</p>
+        {% endif %}
+
+        <form method="POST" action="{% url 'add_account' %}">
+            {% csrf_token %}
+            <table>
+
+                <tr>
+                    <td><label for="iban">IBAN</label></td>
+                    <td>
+                        <input id="iban" type="text" name="iban" maxlength=34 required />
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        <input type="submit" value="Create Account" />
+                    </td>
+                </tr>
+            </table>
+        </form>
+
+        <p><a href="{% url 'home' %}">Back to home</a></p>
+    </center>
+</body>
+
+</html>
